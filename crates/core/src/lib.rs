@@ -10,6 +10,7 @@ pub mod catalog;
 pub mod details;
 pub mod distro;
 pub mod feed;
+pub mod manucraft; // MANUCRAFT: this fork's settings and release build numbers
 pub mod platform;
 pub mod protocol;
 pub mod release;

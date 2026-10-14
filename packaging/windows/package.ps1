@@ -113,7 +113,7 @@ function New-InstallerArt([string] $BannerOut, [string] $DialogOut) {
   $apps = 'photocraft', 'vectorcraft', 'filmcraft', 'lightcraft', 'pdfcraft', 'effectcraft',
     'designcraft', 'wordcraft', 'deckcraft', 'gridcraft', 'cadcraft', 'soundcraft', 'figcraft'
   $mark = [System.Drawing.Image]::FromFile((Join-Path $Root 'assets\app-icon\hicolor\256x256\apps\ai.storyteller.artcraft-launcher.png'))
-  $wordmark = [System.Drawing.Image]::FromFile((Join-Path $Root 'docs\brand\artcraft-logo-white.png'))
+  $wordmark = [System.Drawing.Image]::FromFile((Join-Path $Root 'assets\manucraft\manucraft-wordmark-white.png'))  # MANUCRAFT
   $icons = $apps | ForEach-Object { [System.Drawing.Image]::FromFile((Join-Path $Root "assets\app-icons\$_.png")) }
   # The site's label face; GDI+ draws a variable font at its default instance (Regular).
   $fonts = New-Object System.Drawing.Text.PrivateFontCollection

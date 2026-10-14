@@ -1,29 +1,28 @@
-# ArtCraft Launcher app icon
+# MANUCRAFT app icon
 
-The app icon is the **ArtCraft "A" mark in blue** (getartcraft.com's favicon), exactly as supplied in
-[`docs/brand/artcraft-mark.svg`](../../docs/brand/artcraft-mark.svg). Every file in this
-directory is rendered from it by `packaging/icons.sh`.
+<!-- MANUCRAFT: this file is the fork's own (upstream's described the ArtCraft "A" mark). -->
 
-**These files are an ArtCraft trademark. They are not open source and not covered by ArtCraft
-Launcher's MIT or Apache-2.0 license.** Their terms are in
-[`docs/brand/LICENSE-brand.txt`](../../docs/brand/LICENSE-brand.txt): use them only as part of
-ArtCraft Launcher, never redraw, recolor or crop them, and remove them from forks and modified
-versions.
+The app icon is the **MANUCRAFT "M" mark**, an original drawing in
+[`assets/manucraft/manucraft-mark.svg`](../manucraft/manucraft-mark.svg): a warm-white geometric
+"M" and an amber rule on a near-black rounded square. Every file in this directory is rendered
+from it by `packaging/manucraft-icons.sh` (which `packaging/icons.sh` runs). The file names are
+upstream's, so packaging and the code that includes them didn't change.
+
+License: MIT OR Apache-2.0, like the code (see `ATTRIBUTION.md`).
 
 ## Files
 
-- `artcraft-launcher.svg`: a copy of `docs/brand/artcraft-mark.svg`; also the hicolor scalable icon.
-- `artcraft-launcher-1024.png`: 1024 px render, with extra transparent margin for Apple's icon grid.
-- `artcraft-launcher.icns`: macOS bundle icon (`CFBundleIconFile`).
-- `artcraft-launcher.ico`: Windows icon, 16–256 px, embedded in the `.exe` by
-  `apps/artcraft-launcher/build.rs` and used by the MSI.
+- `artcraft-launcher.svg`: a copy of the mark; also the hicolor scalable icon.
+- `artcraft-launcher-1024.png`: 1024 px render, with transparent margin for Apple's icon grid.
+- `artcraft-launcher.icns`: macOS bundle icon (`CFBundleIconFile`, copied as `MANUCRAFT.icns`).
+- `artcraft-launcher.ico`: Windows icon, 16–256 px.
 - `hicolor/<size>/apps/ai.storyteller.artcraft-launcher.png` (16–512) and
-  `hicolor/scalable/apps/ai.storyteller.artcraft-launcher.svg`: Linux icon theme.
-- The tray / menu-bar icon is the same mark, rendered into `docs/brand/artcraft-mark-black-44.png`
-  (macOS template, 22 pt @2x) and `docs/brand/artcraft-mark-64.png` (blue; Windows, Linux, FreeBSD).
+  `hicolor/scalable/apps/ai.storyteller.artcraft-launcher.svg`: Linux icon theme; the 256 px one
+  is also the window icon.
+- The tray / menu-bar icon: `assets/manucraft/manucraft-mark-black-44.png` (macOS template) and
+  `assets/manucraft/manucraft-mark-64.png` (elsewhere).
 
 ## Regenerate
 
-Run `packaging/icons.sh` on any OS. It needs `resvg`; the `.ico` and `.icns` are packed by
-`cargo xtask ico`. Never edit these files by hand: change the source only if the ArtCraft Team
-supplies a new mark in `docs/brand/`.
+`packaging/icons.sh` (needs `resvg`: `cargo install resvg --locked --version 0.48.1`). Never edit
+the renders by hand; change `assets/manucraft/manucraft-mark.svg` and run the script.

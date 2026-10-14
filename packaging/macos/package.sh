@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Build, sign and (optionally) notarize the macOS release artifact:
 #
-#   $DIST/artcraft-launcher-<version>-macos-<arch>.dmg   ArtCraft Launcher.app on a drag-to-Applications DMG
+#   $DIST/artcraft-launcher-<version>-macos-<arch>.dmg   MANUCRAFT.app on a drag-to-Applications DMG (MANUCRAFT)
 #
 # Usage: packaging/macos/package.sh [--arch universal|aarch64|x86_64] [--skip-build]
 #
@@ -18,7 +18,7 @@ HERE="$ROOT/packaging/macos"
 
 # ---- app-specific values ----------------------------------------------------------------------
 PKG=artcraft-launcher          # cargo package and binary
-APP_NAME="ArtCraft Launcher"   # display name: bundle, executable, icon, DMG volume
+APP_NAME="MANUCRAFT"           # display name: bundle, executable, icon, DMG volume  # MANUCRAFT
 
 ARCH=universal
 SKIP_BUILD=0
@@ -40,10 +40,10 @@ esac
 # Keep in sync with LSMinimumSystemVersion in Info.plist.in.
 export MACOSX_DEPLOYMENT_TARGET=11.0
 IDENTITY="${MACOS_SIGN_IDENTITY:--}"
-SHORT_VERSION="${VERSION%%-*}"
+SHORT_VERSION="${VERSION%%[-+]*}"  # MANUCRAFT: also drop the +m<N> build
 WORK="$CARGO_TARGET_DIR/macos-package"
 APP="$WORK/$APP_NAME.app"
-DMG="$DIST/$PKG-$VERSION-macos-$ARCH.dmg"
+DMG="$DIST/$PKG-${VERSION/+/-}-macos-$ARCH.dmg"  # MANUCRAFT: 0.4.1+m1 -> 0.4.1-m1 (no "+" in asset names)
 
 NOTARIZE=0
 if [ "$IDENTITY" = "-" ]; then

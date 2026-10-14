@@ -15,6 +15,7 @@ pub mod http;
 pub mod install;
 pub mod login;
 pub mod manifest;
+pub mod manucraft; // MANUCRAFT: this fork's backend changes
 pub mod packages;
 pub mod paths;
 pub mod process;

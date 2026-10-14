@@ -3,11 +3,12 @@ resolver = "3"
 members = ["crates/*", "apps/*", "xtask"]
 
 [workspace.package]
-version = "0.4.1"
+# MANUCRAFT: upstream version + MANUCRAFT build `+m<N>` (MANUCRAFT.md, "Releases e versionamento")
+version = "0.4.1+m1"
 edition = "2024"
 license = "MIT OR Apache-2.0"
 rust-version = "1.90"
-repository = "https://github.com/storytold/craft-launcher"
+repository = "https://github.com/netoonine/craft-launcher" # MANUCRAFT
 
 [workspace.lints.rust]
 unsafe_code = "forbid"

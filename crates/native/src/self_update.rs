@@ -333,23 +333,24 @@ mod tests {
         assert!(marker.exists(), "never started after the old launcher exited");
     }
 
-    /// A real disk image: the new `ArtCraft Launcher.app` replaces the old one in place.
+    /// A real disk image: the new `MANUCRAFT.app` replaces the old one in place.
     #[cfg(target_os = "macos")]
     #[test]
     fn the_new_bundle_replaces_the_running_one() {
+        // MANUCRAFT: MANUCRAFT.app, ai.manucraft.launcher
         fn bundle(at: &Path, version: &str) {
-            let contents = at.join("ArtCraft Launcher.app/Contents");
+            let contents = at.join("MANUCRAFT.app/Contents");
             std::fs::create_dir_all(contents.join("MacOS")).unwrap();
             std::fs::write(
                 contents.join("Info.plist"),
                 format!(
                     "<?xml version=\"1.0\" encoding=\"UTF-8\"?><plist version=\"1.0\"><dict>\
-                     <key>CFBundleIdentifier</key><string>ai.storyteller.artcraft-launcher</string>\
+                     <key>CFBundleIdentifier</key><string>ai.manucraft.launcher</string>\
                      <key>CFBundleShortVersionString</key><string>{version}</string></dict></plist>"
                 ),
             )
             .unwrap();
-            std::fs::write(contents.join("MacOS/ArtCraft Launcher"), version).unwrap();
+            std::fs::write(contents.join("MacOS/MANUCRAFT"), version).unwrap();
         }
         let dir = tempfile::tempdir().unwrap();
         let apps = dir.path().join("Applications");
@@ -359,7 +360,7 @@ mod tests {
         let dmg = dir.path().join("artcraft-launcher-0.2.0-macos-universal.dmg");
         let one_at_a_time = install::macos::DISK_IMAGES.lock().unwrap_or_else(std::sync::PoisonError::into_inner);
         let ok = std::process::Command::new("hdiutil")
-            .args(["create", "-quiet", "-format", "UDZO", "-volname", "ArtCraft Launcher 0.2.0", "-srcfolder"])
+            .args(["create", "-quiet", "-format", "UDZO", "-volname", "MANUCRAFT 0.2.0", "-srcfolder"])
             .arg(&src)
             .arg(&dmg)
             .status()
@@ -367,14 +368,14 @@ mod tests {
             .success();
         assert!(ok, "hdiutil create failed");
         drop(one_at_a_time);
-        let current = apps.join("ArtCraft Launcher.app");
+        let current = apps.join("MANUCRAFT.app");
         let existing = Installed { version: None, source: InstallSource::MacApp, location: current.display().to_string(), package: None };
         // An unsigned test bundle: the signature check has its own tests in `install`.
         let expect = install::macos::Expect { team: None, version: None };
         let placed = install::macos::install_dmg(&LAUNCHER, &dmg, Some(&existing), &Paths::under(dir.path()), &expect).unwrap();
         assert_eq!(placed, current);
-        assert_eq!(std::fs::read_to_string(current.join("Contents/MacOS/ArtCraft Launcher")).unwrap(), "0.2.0");
-        assert!(!dir.path().join("Applications/.ArtCraft Launcher.app.partial").exists());
+        assert_eq!(std::fs::read_to_string(current.join("Contents/MacOS/MANUCRAFT")).unwrap(), "0.2.0");
+        assert!(!dir.path().join("Applications/.MANUCRAFT.app.partial").exists());
     }
 
     #[test]

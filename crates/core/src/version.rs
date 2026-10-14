@@ -104,7 +104,7 @@ pub fn is_stable(v: &Version) -> bool {
 
 /// Orders by precedence, ignoring build metadata.
 pub fn compare(a: &Version, b: &Version) -> Ordering {
-    a.cmp_precedence(b)
+    a.cmp_precedence(b).then_with(|| crate::manucraft::build_order(a, b)) // MANUCRAFT: `+m<N>` builds order after each other
 }
 
 /// True when `latest` is newer than `installed`.

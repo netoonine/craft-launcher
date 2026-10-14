@@ -23,13 +23,13 @@ use std::time::{Duration, Instant};
 
 use artcraft_launcher_core::version::{self, Version};
 
-const PORT: u16 = 47_413;
+const PORT: u16 = 47_431; // MANUCRAFT: not ArtCraft Launcher's 47413, so both can run
 /// What launchers before the version handshake send (and still the answer to an unknown peer).
-const SHOW: &[u8] = b"artcraft-launcher:show";
+const SHOW: &[u8] = b"manucraft:show"; // MANUCRAFT
 /// `hello <version>`: a second start introduces itself.
-const HELLO: &str = "artcraft-launcher:hello ";
+const HELLO: &str = "manucraft:hello "; // MANUCRAFT
 /// `running <version>`: the first instance's answer.
-const RUNNING: &str = "artcraft-launcher:running ";
+const RUNNING: &str = "manucraft:running "; // MANUCRAFT
 /// How long a newer start waits for the old one to quit and free the port.
 const TAKE_OVER_WITHIN: Duration = Duration::from_secs(10);
 
@@ -232,14 +232,14 @@ mod tests {
 
     #[test]
     fn answers_are_read_defensively() {
-        assert_eq!(answer(b"artcraft-launcher:hello 9.9.9", Some(&v("0.1.0"))).map(|a| a.0), Some(Request::Replace));
-        assert_eq!(answer(b"artcraft-launcher:hello nonsense", Some(&v("0.1.0"))).map(|a| a.0), Some(Request::Show));
-        assert_eq!(answer(b"artcraft-launcher:hello 9.9.9", None).map(|a| a.0), Some(Request::Show));
+        assert_eq!(answer(b"manucraft:hello 9.9.9", Some(&v("0.1.0"))).map(|a| a.0), Some(Request::Replace));
+        assert_eq!(answer(b"manucraft:hello nonsense", Some(&v("0.1.0"))).map(|a| a.0), Some(Request::Show));
+        assert_eq!(answer(b"manucraft:hello 9.9.9", None).map(|a| a.0), Some(Request::Show));
         assert_eq!(answer(b"hello", Some(&v("0.1.0"))), None);
         assert_eq!(answer(&[0xff, 0xfe], Some(&v("0.1.0"))), None);
-        assert_eq!(verdict(b"artcraft-launcher:running 0.1.0", &v("0.1.2")), Answer::TakeOver);
-        assert_eq!(verdict(b"artcraft-launcher:running 0.1.2", &v("0.1.2")), Answer::Defer);
-        assert_eq!(verdict(b"artcraft-launcher:running unknown", &v("0.1.2")), Answer::Defer);
+        assert_eq!(verdict(b"manucraft:running 0.1.0", &v("0.1.2")), Answer::TakeOver);
+        assert_eq!(verdict(b"manucraft:running 0.1.2", &v("0.1.2")), Answer::Defer);
+        assert_eq!(verdict(b"manucraft:running unknown", &v("0.1.2")), Answer::Defer);
         assert_eq!(verdict(b"garbage", &v("0.1.2")), Answer::Defer);
         assert_eq!(verdict(b"", &v("0.1.2")), Answer::Legacy);
     }

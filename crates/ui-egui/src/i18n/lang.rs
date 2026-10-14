@@ -220,7 +220,7 @@ pub static LANGUAGES: [LangInfo; 11] = [
 
 impl LangInfo {
     pub(super) fn catalog(&self) -> &Catalog {
-        self.catalog.get_or_init(|| Catalog::parse(self.source))
+        self.catalog.get_or_init(|| Catalog::parse(&crate::manucraft::catalog_source(self))) // MANUCRAFT: rebranded
     }
 }
 

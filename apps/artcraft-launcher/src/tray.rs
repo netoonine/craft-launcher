@@ -27,13 +27,12 @@ pub struct Tray {
 }
 
 fn load_icon() -> Result<tray_icon::Icon, String> {
-    // The ArtCraft "A" mark (an ArtCraft trademark, not MIT/Apache: docs/brand/LICENSE-brand.txt).
-    // macOS tints the black mark to the menu bar's colours as a template image; elsewhere the
-    // blue mark is shown as supplied.
+    // MANUCRAFT: the MANUCRAFT "M" (assets/manucraft/, packaging/manucraft-icons.sh). macOS tints
+    // the black "M" to the menu bar's colours as a template image; elsewhere the mark is shown.
     let bytes: &[u8] = if cfg!(target_os = "macos") {
-        include_bytes!("../../../docs/brand/artcraft-mark-black-44.png")
+        include_bytes!("../../../assets/manucraft/manucraft-mark-black-44.png") // MANUCRAFT
     } else {
-        include_bytes!("../../../docs/brand/artcraft-mark-64.png")
+        include_bytes!("../../../assets/manucraft/manucraft-mark-64.png") // MANUCRAFT
     };
     let img = image::load_from_memory_with_format(bytes, image::ImageFormat::Png).map_err(|e| e.to_string())?.into_rgba8();
     let (w, h) = img.dimensions();
@@ -46,7 +45,11 @@ fn load_icon() -> Result<tray_icon::Icon, String> {
 /// Windows and macOS keep tray-icon's defaults: there the title is drawn next to the icon (macOS)
 /// or unsupported (Windows), and the id never reaches the user.
 fn identity(builder: TrayIconBuilder) -> TrayIconBuilder {
-    if cfg!(any(target_os = "macos", target_os = "windows")) { builder } else { builder.with_id("artcraft-launcher").with_title("ArtCraft Launcher") }
+    if cfg!(any(target_os = "macos", target_os = "windows")) {
+        builder
+    } else {
+        builder.with_id("manucraft").with_title(artcraft_launcher_core::catalog::LAUNCHER.name)
+    } // MANUCRAFT
 }
 
 impl Tray {
@@ -61,7 +64,8 @@ impl Tray {
         let discord = MenuItem::new(i18n::t("Join the ArtCraft Discord"), true, None);
         let quit = MenuItem::new(i18n::t("Quit ArtCraft Launcher"), true, None);
         let menu = Menu::new();
-        menu.append_items(&[&show, &check, &PredefinedMenuItem::separator(), &website, &github, &discord, &PredefinedMenuItem::separator(), &quit])
+        // MANUCRAFT: no website or Discord items; "GitHub" opens the MANUCRAFT project.
+        menu.append_items(&[&show, &check, &PredefinedMenuItem::separator(), &github, &PredefinedMenuItem::separator(), &quit])
             .map_err(|e| e.to_string())?;
         let links = [(website.id().clone(), WEBSITE_URL), (github.id().clone(), GITHUB_URL), (discord.id().clone(), DISCORD_URL)];
         let icon = identity(TrayIconBuilder::new())
@@ -69,7 +73,7 @@ impl Tray {
             .with_icon(load_icon()?)
             .with_icon_as_template(cfg!(target_os = "macos"))
             .with_menu_on_left_click(cfg!(target_os = "macos"))
-            .with_tooltip("ArtCraft Launcher")
+            .with_tooltip(artcraft_launcher_core::catalog::LAUNCHER.name) // MANUCRAFT
             .build()
             .map_err(|e| e.to_string())?;
         let (tx, rx): (Sender<TrayAction>, Receiver<TrayAction>) = channel();
@@ -127,7 +131,7 @@ impl Tray {
             self.language = lang.code().to_string();
         }
         let tip = if count == 0 {
-            "ArtCraft Launcher".to_string()
+            artcraft_launcher_core::catalog::LAUNCHER.name.to_string() // MANUCRAFT
         } else {
             i18n::trn(lang, count as u64, "ArtCraft Launcher · {n} update available", "ArtCraft Launcher · {n} updates available")
         };

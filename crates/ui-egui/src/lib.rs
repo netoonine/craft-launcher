@@ -23,6 +23,7 @@ mod details;
 mod dialogs;
 pub mod i18n;
 pub mod icons;
+mod manucraft; // MANUCRAFT: the product name, links and notice
 pub mod model;
 mod motion;
 mod notes;

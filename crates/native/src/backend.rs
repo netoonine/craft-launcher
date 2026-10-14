@@ -625,6 +625,9 @@ struct Fallback {
 ///   apps the feed doesn't list or hasn't refreshed in a day, or once the feed has seriously
 ///   failed (several checks in a row and an hour without an answer); then hourly per app.
 fn feed_and_fallback(http: &Http, paths: &Paths, shared: &Shared) -> (Option<Feed>, Fallback) {
+    if crate::manucraft::NO_FEED {
+        return (None, decide_fallback(false, shared.loaded.load(Ordering::SeqCst), true, 0, None, crate::now())); // MANUCRAFT: GitHub only
+    }
     let saved = load_feed(paths);
     let loaded = shared.loaded.load(Ordering::SeqCst);
     let first_time = !loaded && saved.is_none();
@@ -1104,10 +1107,27 @@ mod tests {
     fn feed() -> Feed {
         Feed::parse(
             r#"{"release_info": {"apps": {
-            "photocraft": {"repo": "storytold/photocraft", "latest_release": {"tag": "v0.6.0"}, "app_last_fetched": "2026-10-09T13:00:00Z"}
+            "photocraft": {"repo": "netoonine/photocraft", "latest_release": {"tag": "v0.6.0"}, "app_last_fetched": "2026-10-09T13:00:00Z"}
         }}}"#,
         )
         .unwrap()
+    }
+
+    /// MANUCRAFT: the release feed is never asked (a request would fail: there is no server here),
+    /// GitHub decides, eagerly until everything has loaded and hourly after.
+    #[test]
+    fn manucraft_never_asks_the_feed() {
+        let dir = tempfile::tempdir().unwrap();
+        let paths = Paths::under(dir.path());
+        let http = Http::new().unwrap();
+        let shared = shared();
+        let (feed, fallback) = feed_and_fallback(&http, &paths, &shared);
+        assert!(feed.is_none());
+        assert_eq!(fallback, Fallback { trust_feed: false, github_every: EARLY_GITHUB_EVERY });
+        shared.loaded.store(true, Ordering::SeqCst);
+        assert_eq!(feed_and_fallback(&http, &paths, &shared).1, Fallback { trust_feed: false, github_every: GITHUB_FALLBACK_EVERY });
+        assert!(!paths.feed_cache().exists());
+        assert!(artcraft_launcher_core::feed::FEED_URL.is_empty());
     }
 
     #[test]

@@ -186,7 +186,7 @@ fn sync(o: &Opts) -> Result<(), String> {
 fn sync_one(o: &Opts, id: &str, name: &str) -> Result<Outcome, String> {
     let repo = o.root.join(id);
     if !repo.join(".git").exists() {
-        return Ok(Outcome::Skipped(format!("no checkout at {} (git clone git@github.com:storytold/{id}.git)", repo.display())));
+        return Ok(Outcome::Skipped(format!("no checkout at {} (git clone git@github.com:netoonine/{id}.git)", repo.display()))); // MANUCRAFT
     }
     let mut pull_note = String::new();
     if o.pull {
@@ -454,7 +454,7 @@ fn feed(mirror: &Path, base: &str) -> String {
             r#"{}:{{"name":{},"repo":{},"latest_release":{{"tag":{},"name":{},"published_at":{},"html_url":"","prerelease":false,"notes_markdown":{},"assets":[{}]}},"app_last_fetched":{}}}"#,
             json_str(id),
             json_str(name),
-            json_str(&format!("storytold/{id}")),
+            json_str(&format!("netoonine/{id}")), // MANUCRAFT: the catalog's owner
             json_str(&format!("v{version}")),
             json_str(&format!("{name} v{version} (local build)")),
             json_str(&published),

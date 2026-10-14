@@ -12,6 +12,8 @@
 #
 #   packaging/icons.sh
 set -euo pipefail
+# MANUCRAFT: the ArtCraft mark is not licensed for forks; draw the MANUCRAFT icons instead.
+exec "$(dirname "${BASH_SOURCE[0]}")/manucraft-icons.sh" "$@"
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 DIR="$ROOT/assets/app-icon"
 BRAND="$ROOT/docs/brand"

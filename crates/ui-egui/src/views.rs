@@ -80,7 +80,7 @@ impl LauncherUi {
             // The ArtCraft wordmark exactly as supplied, in its own cell.
             let logo = vec2(14.0 * crate::icons::ARTCRAFT_LOGO_ASPECT, 14.0);
             let (cell, _) = ui.allocate_exact_size(vec2(logo.x + 40.0, h), Sense::hover());
-            egui::Image::new(crate::icons::artcraft_logo(t.dark)).alt_text(tl!("ArtCraft")).paint_at(ui, Rect::from_center_size(cell.center(), logo));
+            egui::Image::new(crate::icons::artcraft_logo(t.dark)).alt_text(tl!("ArtCraft")).paint_at(ui, Rect::from_center_size(cell.center(), logo)); // MANUCRAFT: the MANUCRAFT wordmark (icons.rs)
             ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
                 if bar == TitleBar::Custom {
                     widgets::window_buttons(ui, h);
@@ -92,7 +92,9 @@ impl LauncherUi {
                     self.check_now();
                 }
                 ui.add_space(6.0);
-                if widgets::nav_link(ui, tl!("Discord"), tl!("Join the ArtCraft community on Discord"), h, false).clicked() {
+                if crate::manucraft::community_links() // MANUCRAFT: no Discord link
+                    && widgets::nav_link(ui, tl!("Discord"), tl!("Join the ArtCraft community on Discord"), h, false).clicked()
+                {
                     ui.ctx().open_url(egui::OpenUrl::new_tab(artcraft_launcher_core::catalog::DISCORD_URL));
                 }
                 ui.add_space(6.0);
@@ -316,8 +318,8 @@ impl LauncherUi {
             Some(p) => fmt(tl!("Downloads for {platform}"), &[("platform", &p.label())]),
             None => tl!("No downloads for this system").into(),
         };
-        use artcraft_launcher_core::catalog::{DISCORD_URL, GITHUB_URL, SOCIAL, WEBSITE_URL};
-        let links = [(tl!("Discord"), DISCORD_URL), (tl!("GitHub"), GITHUB_URL), (tl!("Website"), WEBSITE_URL)];
+        use artcraft_launcher_core::catalog::{GITHUB_URL, SOCIAL}; // MANUCRAFT
+        let links = [(tl!("GitHub"), GITHUB_URL)]; // MANUCRAFT: only the project's GitHub, no Discord or website
         let (icon, link_gap) = (13.0, 16.0);
         // The links and icons on the right keep their size; the status on the left gets what is
         // left and is cut short with "…", never drawn under them. A narrow window drops the

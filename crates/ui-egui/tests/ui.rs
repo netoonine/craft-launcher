@@ -294,7 +294,7 @@ fn grid_shows_every_status_and_installs_on_click() {
     h.get_by_label_contains("0.4.1 installed → 0.5.0 released");
     // The window has no title bar of its own here (the web build, and the tests).
     assert!(h.query_by_label("Close").is_none());
-    assert!(h.query_all_by_label_contains("Discord").count() >= 2); // header link and footer link
+    assert_eq!(h.query_all_by_label_contains("Discord").count(), 0); // MANUCRAFT: no Discord links
     assert!(h.query_all_by_label("Coming soon").count() >= 1);
     h.get_by_label_contains("48 MB of 131 MB");
     h.get_by_label("Update all (2)").click();
@@ -590,9 +590,9 @@ fn settings_link_to_discord() {
     h.get_by_label("Settings").click();
     h.run_steps(4);
     snapshot(&mut h, "settings-dark");
-    h.get_by_label("Questions, ideas and news from the ArtCraft team");
-    // The header button and the one in Settings.
-    assert!(h.query_all_by_label_contains("Discord").count() >= 2);
+    // MANUCRAFT: the attribution notice instead of the ArtCraft community, and no Discord.
+    h.get_by_label(artcraft_launcher_core::manucraft::ABOUT);
+    assert_eq!(h.query_all_by_label_contains("Discord").count(), 0);
 }
 
 #[test]
@@ -624,13 +624,12 @@ fn the_uninstall_prompt_keeps_its_own_size_after_a_taller_dialog() {
 fn links_to_the_website_github_and_each_apps_pages() {
     let (mut h, _) = harness(ViewMode::Grid, egui::Theme::Dark, true);
     h.run_steps(6);
-    // Footer: website, GitHub and Discord.
-    for label in ["Website", "GitHub", "Discord"] {
-        assert!(h.query_all_by_label(label).count() >= 1, "{label}");
-    }
-    // Cards: every app links to its repo and to its own page on getartcraft.com (plus the footer's).
+    // MANUCRAFT: the footer has only GitHub (the MANUCRAFT project); no website or Discord.
+    assert!(h.query_all_by_label("GitHub").count() >= 1);
+    assert_eq!(h.query_all_by_label("Discord").count(), 0);
+    // Cards: every app links to its repo and to its "website" (its fork's page, plus the footer's GitHub).
     let shown_cards = h.query_all_by_label("GitHub").count() - 1;
-    let shown_sites = h.query_all_by_label("Website").count() - 1;
+    let shown_sites = h.query_all_by_label("Website").count(); // MANUCRAFT: no footer Website
     assert!(shown_cards >= 13, "{shown_cards}");
     assert_eq!(shown_sites, 13, "every app has a website page");
     // The table's … menu has the app's website and GitHub repo.
@@ -639,8 +638,8 @@ fn links_to_the_website_github_and_each_apps_pages() {
     h.get_all_by_label("…").nth(7).unwrap().click(); // WordCraft
     h.run_steps(3);
     h.get_by_label("GitHub repository");
-    // The footer's Website link and WordCraft's now-live one in the menu.
-    assert!(h.query_all_by_label_contains("Website").count() >= 2);
+    // WordCraft's now-live Website link in the menu (MANUCRAFT: no footer Website link).
+    assert!(h.query_all_by_label_contains("Website").count() >= 1);
 }
 
 /// Clicks the `n`th widget labelled `label` and returns the URL the app asked to open.
@@ -673,24 +672,22 @@ fn all_opened(h: &mut Harness<'_, Option<LauncherUi>>, label: &str) -> Vec<Strin
 fn links_open_the_right_pages() {
     let (mut h, _) = harness(ViewMode::Grid, egui::Theme::Dark, true);
     h.run_steps(6);
-    assert_eq!(click_opens(&mut h, "Discord").as_deref(), Some("https://discord.gg/artcraft"));
-    // The footer's ArtCraft links and each card's own pages.
+    // MANUCRAFT: no Discord or social links; the footer's GitHub is the MANUCRAFT project, and
+    // each card links to its fork.
+    assert_eq!(h.query_all_by_label("Discord").count(), 0);
     let github = all_opened(&mut h, "GitHub");
-    assert!(github.contains(&"https://github.com/storytold".to_string()), "{github:?}");
-    assert!(github.contains(&"https://github.com/storytold/photocraft".to_string()), "{github:?}");
+    assert!(github.contains(&"https://github.com/netoonine/manucraft".to_string()), "{github:?}");
+    assert!(github.contains(&"https://github.com/netoonine/photocraft".to_string()), "{github:?}");
     let sites = all_opened(&mut h, "Website");
-    assert!(sites.contains(&"https://getartcraft.com".to_string()), "{sites:?}");
-    assert!(sites.contains(&"https://getartcraft.com/apps/photocraft".to_string()), "{sites:?}");
-    // Social icons in the footer.
-    assert_eq!(click_opens(&mut h, "X").as_deref(), Some("https://x.com/get_artcraft"));
-    assert_eq!(click_opens(&mut h, "YouTube").as_deref(), Some("https://www.youtube.com/@OfficialArtcraftStudios"));
-    assert_eq!(click_opens(&mut h, "TikTok").as_deref(), Some("https://www.tiktok.com/@artcraft.studios"));
-    assert_eq!(click_opens(&mut h, "Instagram").as_deref(), Some("https://www.instagram.com/officialartcraftstudios"));
-    assert_eq!(click_opens(&mut h, "LinkedIn").as_deref(), Some("https://www.linkedin.com/company/artcraft-ai"));
+    assert!(sites.contains(&"https://github.com/netoonine/photocraft".to_string()), "{sites:?}");
+    assert!(sites.iter().all(|s| s.starts_with("https://github.com/netoonine/")), "{sites:?}");
+    for social in ["X", "YouTube", "TikTok", "Instagram", "LinkedIn"] {
+        assert_eq!(h.query_all_by_label(social).count(), 0, "{social}");
+    }
     // The … menu.
     h.get_all_by_label("…").next().unwrap().click();
     h.run_steps(3);
-    assert_eq!(click_opens(&mut h, "All releases").as_deref(), Some("https://github.com/storytold/photocraft/releases"));
+    assert_eq!(click_opens(&mut h, "All releases").as_deref(), Some("https://github.com/netoonine/photocraft/releases"));
 }
 
 #[test]
@@ -780,7 +777,7 @@ fn the_launcher_updates_itself_and_quits_to_restart() {
         None,
     );
     h.run_steps(6);
-    h.get_by_label_contains("ArtCraft Launcher 0.2.0 is available");
+    h.get_by_label_contains("MANUCRAFT 0.2.0 is available"); // MANUCRAFT
     h.get_by_label("Update and restart").click();
     h.run_steps(2);
     assert!(sent.borrow().contains(&Command::UpdateLauncher));
@@ -804,7 +801,7 @@ fn launcher_update_prompts_to_relaunch_with_updated_version() {
     let (mut h, _) = harness_with(ev, ViewMode::Grid, egui::Theme::Dark, true, 1.0);
     h.run_steps(6);
     // Dialog pops up on launch with the update prompt
-    h.get_by_label_contains("ArtCraft Launcher 0.2.0 is available");
+    h.get_by_label_contains("MANUCRAFT 0.2.0 is available"); // MANUCRAFT
     h.get_by_label("A new version is available. Would you like to relaunch with the updated version?");
     h.get_by_label("What's new");
     // Clicking "Later" dismisses the modal dialog
@@ -1309,15 +1306,16 @@ fn the_rate_limit_notice_never_runs_under_the_footer_links() {
         let checked = h.get_by_label_contains("Checked ").rect();
         // Cut short in a narrow window, but enough of it left to read.
         assert!(notice.width() >= 120.0 && notice.right() <= width, "{width}: notice {notice:?}");
-        // Everything on the footer's right: the three links, the social icons and (when there's
-        // room) the platform.
+        // Everything on the footer's right: the GitHub link (MANUCRAFT: the only one) and (when
+        // there's room) the platform.
         let mut right = Vec::new();
         for label in ["Website", "GitHub", "Discord", "X", "YouTube", "TikTok", "Instagram", "LinkedIn"] {
             right.extend(h.query_all_by_label(label).map(|n| n.rect()).filter(|r| (r.center().y - notice.center().y).abs() < 12.0));
         }
-        assert_eq!(right.len(), 8, "{width}: {right:?}");
+        assert_eq!(right.len(), 1, "{width}: {right:?}"); // MANUCRAFT
         let platform = h.query_by_label_contains("Installing for").map(|n| n.rect());
-        assert_eq!(platform.is_some(), width > 720.0, "{width}: the platform label shows unless the window is narrow");
+        // MANUCRAFT: with one link instead of three and the icons, 720 px has room for it too.
+        assert!(platform.is_some() || width <= 720.0, "{width}: the platform label shows unless the window is narrow");
         right.extend(platform);
         for r in right {
             assert!(!r.intersects(notice), "{width}: notice {notice:?} overlaps {r:?}");

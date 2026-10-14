@@ -17,7 +17,7 @@ set -euo pipefail
 . "$(dirname "${BASH_SOURCE[0]}")/../env.sh"
 
 PKG=artcraft-launcher
-APP_NAME="ArtCraft Launcher"
+APP_NAME="MANUCRAFT"  # MANUCRAFT
 
 ARCH=universal
 while [ $# -gt 0 ]; do
@@ -34,7 +34,7 @@ case "$ARCH" in
   *) echo "unknown --arch $ARCH" >&2; exit 2 ;;
 esac
 
-DMG="$DIST/$PKG-$VERSION-macos-$ARCH.dmg"
+DMG="$DIST/$PKG-${VERSION/+/-}-macos-$ARCH.dmg"  # MANUCRAFT: as package.sh names it
 IDENTITY="${MACOS_SIGN_IDENTITY:--}"
 STRICT=0
 if [ "$IDENTITY" != "-" ] && [ -n "${APPLE_ID:-}" ] && [ -n "${APPLE_PASSWORD:-}" ] && [ -n "${APPLE_TEAM_ID:-}" ]; then

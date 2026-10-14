@@ -66,7 +66,8 @@ pub fn install(
     let version = release.version_label();
     let result = match kind {
         #[cfg(target_os = "macos")]
-        PackageKind::Dmg => macos::install_dmg(app, &file, existing, job.paths, &macos::Expect::release(release)).map(|_| None),
+        PackageKind::Dmg => macos::install_dmg(app, &file, existing, job.paths, &macos::Expect::release(release))
+            .map(|path| Some(record(&version, kind, path, Vec::new(), false))), // MANUCRAFT: remember the `+m<N>` build
         #[cfg(windows)]
         PackageKind::Msi => windows::run_msi(&file, job.stop, &mut *job.phase).map(|_| None),
         #[cfg(target_os = "linux")]
@@ -982,9 +983,8 @@ pub mod macos {
 
     /// Checks a copied bundle against what its release promises, before it replaces anything.
     fn check(bundle: &Path, found: &Installed, expect: &Expect<'_>) -> Result<(), String> {
-        if let Some(team) = expect.team
-            && !signed_by(bundle, team)
-        {
+        if expect.team.is_some() && !crate::manucraft::signature_intact(bundle) {
+            // MANUCRAFT: any intact signature (ad-hoc builds), not only the ArtCraft team's
             return Err("the app isn't signed by its developer, so it wasn't installed".into());
         }
         if let Some(want) = expect.version

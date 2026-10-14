@@ -40,6 +40,7 @@ pub fn replace(manifest: &str, new: &str) -> Result<String, String> {
 /// Semver without build metadata: `MAJOR.MINOR.PATCH` plus an optional `-pre.release` tag.
 pub fn validate(v: &str) -> Result<(), String> {
     let bad = || Err(format!("`{v}` is not a version like 1.2.3 or 1.2.3-rc.1"));
+    let v = v.split_once("+m").filter(|(_, n)| !n.is_empty() && n.bytes().all(|b| b.is_ascii_digit())).map_or(v, |(core, _)| core); // MANUCRAFT: +m<N>
     let (core, pre) = match v.split_once('-') {
         Some((c, p)) => (c, Some(p)),
         None => (v, None),
@@ -142,6 +143,7 @@ mod tests {
             assert!(validate(bad).is_err(), "{bad}");
         }
         assert!(replace(MANIFEST, "nope").is_err());
+        assert!(validate("0.4.1+m2").is_ok() && validate("0.4.1+m").is_err()); // MANUCRAFT: the build number
     }
 
     #[test]

@@ -1,5 +1,14 @@
 # AGENTS.md: guide for AI agents and contributors
 
+> **MANUCRAFT fork.** This repository is `netoonine/craft-launcher`, branch `manucraft`: the
+> launcher **MANUCRAFT**, built from ArtCraft Launcher and kept in sync with
+> `storytold/craft-launcher`. Read [`MANUCRAFT.md`](MANUCRAFT.md) first: it lists what the fork
+> changes, the hooks in upstream files (`grep -rn MANUCRAFT`), the release/versioning contract
+> and the overrides to the rules below. Where this file and `MANUCRAFT.md` disagree,
+> `MANUCRAFT.md` wins. Put new logic in the fork's own files (`*/manucraft.rs`,
+> `assets/manucraft/`, `packaging/manucraft-icons.sh`) and keep edits to upstream files to
+> one- or two-line hooks marked `MANUCRAFT`.
+
 ArtCraft Launcher installs, updates and launches the **Craft App Suite** (PhotoCraft, LightCraft,
 FilmCraft, DesignCraft, VectorCraft, PdfCraft, EffectCraft, WordCraft, DeckCraft, GridCraft,
 CADCraft, SoundCraft, FigCraft). It is written in **Rust only** (no JavaScript or TypeScript): the desktop
@@ -57,7 +66,8 @@ settings file must produce an error the user can act on, never a panic. Shared s
 
 ### Installing other people's software safely
 
-- Download only from `https://github.com/storytold/<app>/releases` (and GitHub's asset CDN).
+- Download only from `https://github.com/netoonine/<app>/releases` (and GitHub's asset CDN).
+  (MANUCRAFT: the forks; upstream says `storytold/<app>`.)
   The one exception is a developer's own loopback mirror (`ARTCRAFT_LAUNCHER_DOWNLOAD_BASE`,
   `cargo xtask local`); keep it loopback-only and behind the `local-mirror` cargo feature, which
   release builds never enable.
@@ -68,8 +78,9 @@ settings file must produce an error the user can act on, never a panic. Shared s
 - Never run an installer with elevated rights silently; tell the user what is about to happen.
 - Never delete a user's files outside what the launcher itself installed.
 - **Agents never land or approve a third-party app.** A change that adds a catalog row, download
-  source or install path for an app whose repo is not under `storytold/`, or that loosens the
-  rules above to allow one, is a maintainer's call alone. An agent reviewing it flags it at the
+  source or install path for an app whose repo is not under `netoonine/` (MANUCRAFT: the forks of
+  the Craft apps; upstream's rule names `storytold/`), or that loosens the rules above to allow
+  one, is a maintainer's call alone. An agent reviewing it flags it at the
   top of its review (who owns the repo, its age and history, whether the builds are signed) and
   stops there: no merge, no approval, no fixes pushed to the PR.
 

@@ -64,7 +64,7 @@ pub fn trn(lang: Lang, n: u64, one: &str, other: &str) -> String {
     let idx = (lang.0.plural)(n);
     let english = if n == 1 { one } else { other };
     let text = lang.catalog().plural(&format!("{one}|{other}"), idx).unwrap_or(english);
-    fmt(text, &[("n", &n.to_string())])
+    crate::manucraft::rebrand(&fmt(text, &[("n", &n.to_string())])).into_owned() // MANUCRAFT
 }
 
 /// [`trn`] in the current language.
@@ -76,7 +76,7 @@ pub fn tn(n: u64, one: &str, other: &str) -> String {
 /// the parts of a message a template's placeholders stand for (names, versions, reasons), stay
 /// as they are.
 pub fn message(lang: Lang, s: &str) -> String {
-    lang.catalog().message(s).unwrap_or_else(|| s.to_string())
+    crate::manucraft::rebrand(&lang.catalog().message(s).unwrap_or_else(|| s.to_string())).into_owned() // MANUCRAFT
 }
 
 /// [`message`] in the current language, remembering the last answer: the status bar asks for the

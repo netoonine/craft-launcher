@@ -60,7 +60,7 @@ fn from_manifest(app: &CraftApp, manifest: &Manifest) -> Option<Installed> {
     // On macOS the bundle itself is the truth (the app may have updated itself).
     #[cfg(target_os = "macos")]
     if let Some(found) = macos::read_bundle(app, &rec.path) {
-        return Some(found);
+        return Some(crate::manucraft::with_build(found, &rec.version)); // MANUCRAFT: keep the `+m<N>` build
     }
     Some(Installed {
         version: version::parse(&rec.version),

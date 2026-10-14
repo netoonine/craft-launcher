@@ -152,7 +152,7 @@ fn check_settings_layout() {
         h.run_steps(8);
         let screen = egui::Rect::from_min_size(egui::Pos2::ZERO, egui::vec2(width, height));
         let done = h.get_by_label("Kész").rect();
-        let quit = h.get_by_label("Kilépés az ArtCraft Launcherből").rect();
+        let quit = h.get_by_label("Kilépés az MANUCRAFT-ből").rect(); // MANUCRAFT: the rebranded name
         assert!(screen.contains_rect(done), "{width}x{height}: Done is clipped: {done:?}");
         assert!(screen.contains_rect(quit), "{width}x{height}: Quit is clipped: {quit:?}");
         assert!(!done.intersects(quit));
@@ -160,28 +160,15 @@ fn check_settings_layout() {
         assert!(screen.contains_rect(title), "{width}x{height}: title is clipped: {title:?}");
         h.get_by_label("Rendszerbeállítás szerint").scroll_to_me();
         h.run_steps(8);
-        // The footer has the same services, and the cards behind the modal have Webhely and GitHub
-        // links as one 14px line of text; keep only the settings body's buttons (34px) and icons (24px).
-        let discord = h.get_by_label("Csatlakozás a Discordhoz").rect();
+        // MANUCRAFT: the community section has only the GitHub button (no Discord, website or
+        // social icons). The footer and the cards behind the modal have GitHub links as one 14px
+        // line of text; keep only the settings body's button (34px).
         let theme = h.get_by_label("Rendszerbeállítás szerint").rect();
-        assert!(screen.contains_rect(discord), "community links must be reachable by scrolling");
+        let github: Vec<_> = h.query_all_by_label("GitHub").map(|n| n.rect()).filter(|r| r.bottom() < theme.top() && r.height() > 20.0).collect();
+        assert_eq!(github.len(), 1, "{width}x{height}: settings link GitHub: {github:?}");
+        assert!(screen.contains_rect(github[0]), "community links must be reachable by scrolling");
         assert!(theme.bottom() < done.top(), "appearance controls must scroll above the fixed actions");
-        let mut links = vec![discord];
-        for label in ["Webhely", "GitHub", "X", "Instagram", "LinkedIn", "YouTube", "TikTok"] {
-            let candidates: Vec<_> = h
-                .query_all_by_label(label)
-                .map(|n| n.rect())
-                .filter(|r| r.top() >= discord.top() - 1.0 && r.bottom() < theme.top() && r.height() > 20.0)
-                .collect();
-            assert_eq!(candidates.len(), 1, "{width}x{height}: settings link {label}: {candidates:?}");
-            links.extend(candidates);
-        }
-        for (i, r) in links.iter().enumerate() {
-            assert!(screen.contains_rect(*r), "{width}x{height}: link is clipped: {r:?}");
-            for other in links.iter().skip(i + 1) {
-                assert!(!r.intersects(*other), "{width}x{height}: links overlap: {r:?}, {other:?}");
-            }
-        }
+        assert!(h.query_by_label("Csatlakozás a Discordhoz").is_none(), "no Discord button");
         snapshot(&mut h, &format!("settings-hu-{width}x{height}-bottom"));
         h.get_by_label("Nyelv").scroll_to_me();
         h.run_steps(8);

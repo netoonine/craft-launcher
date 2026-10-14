@@ -186,7 +186,12 @@ impl LauncherUi {
         ui.set_max_height((viewport.height() - 80.0).max(0.0));
         ui.spacing_mut().scroll = egui::style::ScrollStyle { foreground_color: true, ..egui::style::ScrollStyle::solid() };
         let title_top = ui.cursor().top();
-        Self::title(ui, Some(crate::icons::artcraft_mark()), tl!("Settings"), &format!("ArtCraft Launcher {}", env!("CARGO_PKG_VERSION")));
+        Self::title(
+            ui,
+            Some(crate::icons::artcraft_mark()),
+            tl!("Settings"),
+            &format!("{} {}", artcraft_launcher_core::catalog::LAUNCHER.name, env!("CARGO_PKG_VERSION")),
+        ); // MANUCRAFT
         let title_height = ui.cursor().top() - title_top;
         let quit_width = widgets::button_width(ui, tl!("Quit ArtCraft Launcher"), 0.0);
         let done_width = widgets::button_width(ui, tl!("Done"), 90.0);
@@ -337,14 +342,18 @@ impl LauncherUi {
         }
 
         section(ui, tl!("Community"));
-        ui.label(RichText::new(tl!("Questions, ideas and news from the ArtCraft team")).color(t.muted));
+        ui.label(RichText::new(artcraft_launcher_core::manucraft::ABOUT).color(t.muted)); // MANUCRAFT: the attribution notice
         ui.add_space(6.0);
         ui.horizontal_wrapped(|ui| {
             use artcraft_launcher_core::catalog::{DISCORD_URL, GITHUB_URL, WEBSITE_URL};
-            if widgets::button(ui, tl!("Join the Discord"), Kind::Primary, 0.0).on_hover_text(DISCORD_URL).clicked() {
+            if crate::manucraft::community_links()
+                && widgets::button(ui, tl!("Join the Discord"), Kind::Primary, 0.0).on_hover_text(DISCORD_URL).clicked()
+            {
+                // MANUCRAFT: hidden
                 ui.ctx().open_url(egui::OpenUrl::new_tab(DISCORD_URL));
             }
-            if widgets::button(ui, tl!("Website"), Kind::Secondary, 0.0).on_hover_text(WEBSITE_URL).clicked() {
+            if crate::manucraft::community_links() && widgets::button(ui, tl!("Website"), Kind::Secondary, 0.0).on_hover_text(WEBSITE_URL).clicked() {
+                // MANUCRAFT: hidden
                 ui.ctx().open_url(egui::OpenUrl::new_tab(WEBSITE_URL));
             }
             if widgets::button(ui, tl!("GitHub"), Kind::Secondary, 0.0).on_hover_text(GITHUB_URL).clicked() {
