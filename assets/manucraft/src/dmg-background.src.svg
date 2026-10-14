@@ -1,12 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="660" height="400" viewBox="0 0 660 400">
 <rect width="660" height="400" fill="#efe9dc"/>
-<rect width="232" height="400" fill="#f2b43c"/>
-<path fill="#141417" transform="translate(-7.6 87.9) scale(0.3)" d="M162,586V162H272L412,362L552,162H662V586H562V332L412,542L262,332V586Z" />
+<rect width="232" height="400" fill="#ffffff"/>
+<g transform="translate(116 200) scale(0.27212) translate(-306.0 -405.341)"><path fill="#ea3334" d="M30.388 575.708 L170.266 234.974 L271.265 234.974 L306 318.808 L357.651 443.467 L386.051 512.011 L412.443 575.708 L361.489 575.708 L311.77 575.708 L306 562.419 L254.349 443.467 L218.782 361.553 L158.9 507.452 L224.191 507.452 L225.949 512.011 L250.511 575.708 L199.557 575.708 Z"/><path fill="#ea3334" d="M306 318.808 L340.735 234.974 L441.734 234.974 L581.612 575.708 L481.115 575.708 L453.1 507.452 L393.218 361.553 L357.651 443.467 Z"/></g>
 <line x1="232.5" y1="0" x2="232.5" y2="400" stroke="#0b0b0c" stroke-width="1.2"/>
 <line x1="236.5" y1="0" x2="236.5" y2="400" stroke="#0b0b0c" stroke-width="0.5"/>
 <line x1="267" y1="88.5" x2="624" y2="88.5" stroke="#0b0b0c" stroke-width="0.6"/>
-<path d="M271.5,81.5 L276,88.5 L271.5,95.5 L267,88.5 Z" fill="#f2b43c" stroke="#0b0b0c" stroke-width="0.5"/>
-<rect x="410.5" y="199.5" width="11" height="11" fill="#efe9dc" stroke="#0b0b0c" stroke-opacity="0.45" stroke-width="0.7"/><rect x="425.5" y="199.5" width="11" height="11" fill="#efe9dc" stroke="#0b0b0c" stroke-opacity="0.45" stroke-width="0.7"/><rect x="440.5" y="199.5" width="11" height="11" fill="#efe9dc" stroke="#0b0b0c" stroke-opacity="0.45" stroke-width="0.7"/><rect x="455.5" y="199.5" width="11" height="11" fill="#f2b43c" stroke="#0b0b0c" stroke-width="0.7"/><line x1="472" y1="205" x2="484" y2="205" stroke="#0b0b0c" stroke-width="1.2"/><path d="M495,205 L484,210.5 L484,199.5 Z" fill="#0b0b0c"/>
+<path d="M271.5,81.5 L276,88.5 L271.5,95.5 L267,88.5 Z" fill="#ea3334" stroke="#0b0b0c" stroke-width="0.5"/>
+<rect x="410.5" y="199.5" width="11" height="11" fill="#efe9dc" stroke="#0b0b0c" stroke-opacity="0.45" stroke-width="0.7"/><rect x="425.5" y="199.5" width="11" height="11" fill="#efe9dc" stroke="#0b0b0c" stroke-opacity="0.45" stroke-width="0.7"/><rect x="440.5" y="199.5" width="11" height="11" fill="#efe9dc" stroke="#0b0b0c" stroke-opacity="0.45" stroke-width="0.7"/><rect x="455.5" y="199.5" width="11" height="11" fill="#ea3334" stroke="#0b0b0c" stroke-width="0.7"/><line x1="472" y1="205" x2="484" y2="205" stroke="#0b0b0c" stroke-width="1.2"/><path d="M495,205 L484,210.5 L484,199.5 Z" fill="#0b0b0c"/>
 <line x1="267" y1="335.5" x2="624" y2="335.5" stroke="#0b0b0c" stroke-width="0.6"/>
 <text x="266" y="72" font-family="Archivo" font-weight="700" font-stretch="semi-expanded" font-size="30" letter-spacing="1.5" fill="#0b0b0c">MANUCRAFT</text>
 <text x="267" y="112" font-family="Geist Mono" font-size="10" fill="#0b0b0c" fill-opacity="0.7">Craft App Suite · 13 apps · one launcher</text>

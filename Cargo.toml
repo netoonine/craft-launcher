@@ -4,7 +4,7 @@ members = ["crates/*", "apps/*", "xtask"]
 
 [workspace.package]
 # MANUCRAFT: upstream version + MANUCRAFT build `+m<N>` (MANUCRAFT.md, "Releases e versionamento")
-version = "0.4.1+m1"
+version = "0.4.1+m2"
 edition = "2024"
 license = "MIT OR Apache-2.0"
 rust-version = "1.90"

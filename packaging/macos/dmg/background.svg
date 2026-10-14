@@ -1,17 +1,18 @@
 <svg width="660" height="400" xmlns="http://www.w3.org/2000/svg">
     <path fill="#efe9dc" stroke="none" d="M 0 0 L 660 0 L 660 400 L 0 400 Z"/>
-    <path fill="#f2b43c" stroke="none" d="M 0 0 L 232 0 L 232 400 L 0 400 Z"/>
-    <g transform="matrix(0.3 0 0 0.3 -7.6 87.90001)">
-        <path fill="#141417" stroke="none" d="M 162 586 L 162 162 L 272 162 L 412 362 L 552 162 L 662 162 L 662 586 L 562 586 L 562 332 L 412 542 L 262 332 L 262 586 Z"/>
+    <path fill="#ffffff" stroke="none" d="M 0 0 L 232 0 L 232 400 L 0 400 Z"/>
+    <g transform="matrix(0.27212 0 0 0.27212 32.73128 89.69861)">
+        <path fill="#ea3334" stroke="none" d="M 30.388 575.708 L 170.266 234.974 L 271.265 234.974 L 306 318.808 L 357.651 443.467 L 386.051 512.011 L 412.443 575.708 L 361.48898 575.708 L 311.77 575.708 L 306 562.419 L 254.349 443.467 L 218.782 361.553 L 158.9 507.452 L 224.191 507.452 L 225.949 512.011 L 250.51099 575.708 L 199.55699 575.708 Z"/>
+        <path fill="#ea3334" stroke="none" d="M 306 318.808 L 340.735 234.974 L 441.734 234.974 L 581.612 575.708 L 481.11496 575.708 L 453.1 507.452 L 393.21802 361.553 L 357.651 443.467 Z"/>
     </g>
     <path fill="#000000" stroke="#0b0b0c" stroke-width="1.2" d="M 232.5 0 L 232.5 400"/>
     <path fill="#000000" stroke="#0b0b0c" stroke-width="0.5" d="M 236.50002 0 L 236.50002 400"/>
     <path fill="#000000" stroke="#0b0b0c" stroke-width="0.6" d="M 267 88.5 L 624 88.5"/>
-    <path fill="#f2b43c" stroke="#0b0b0c" stroke-width="0.5" d="M 271.5 81.5 L 276 88.5 L 271.5 95.5 L 267 88.5 Z"/>
+    <path fill="#ea3334" stroke="#0b0b0c" stroke-width="0.5" d="M 271.5 81.5 L 276 88.5 L 271.5 95.5 L 267 88.5 Z"/>
     <path fill="#efe9dc" stroke="#0b0b0c" stroke-opacity="0.45" stroke-width="0.7" d="M 410.5 199.5 L 421.5 199.5 L 421.5 210.5 L 410.5 210.5 Z"/>
     <path fill="#efe9dc" stroke="#0b0b0c" stroke-opacity="0.45" stroke-width="0.7" d="M 425.50003 199.5 L 436.5 199.5 L 436.5 210.5 L 425.50003 210.5 Z"/>
     <path fill="#efe9dc" stroke="#0b0b0c" stroke-opacity="0.45" stroke-width="0.7" d="M 440.50003 199.5 L 451.5 199.5 L 451.5 210.5 L 440.50003 210.5 Z"/>
-    <path fill="#f2b43c" stroke="#0b0b0c" stroke-width="0.7" d="M 455.49997 199.5 L 466.5 199.5 L 466.5 210.5 L 455.49997 210.5 Z"/>
+    <path fill="#ea3334" stroke="#0b0b0c" stroke-width="0.7" d="M 455.49997 199.5 L 466.5 199.5 L 466.5 210.5 L 455.49997 210.5 Z"/>
     <path fill="#000000" stroke="#0b0b0c" stroke-width="1.2" d="M 472 205 L 484 205"/>
     <path fill="#0b0b0c" stroke="none" d="M 495 205 L 484 210.5 L 484 199.5 Z"/>
     <path fill="#000000" stroke="#0b0b0c" stroke-width="0.6" d="M 267 335.5 L 624 335.5"/>

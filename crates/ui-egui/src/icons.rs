@@ -22,18 +22,18 @@ pub fn app(id: &str) -> Option<ImageSource<'static>> {
     })
 }
 
-/// MANUCRAFT: the MANUCRAFT wordmark (`assets/manucraft/`): dark ink for light backgrounds,
-/// white for dark ones. Replaces the ArtCraft wordmark, a trademark not licensed for forks.
+/// MANUCRAFT: the MANUCRAFT lockup (`assets/manucraft/`: the flat red "M" and the wordmark), dark
+/// ink for light backgrounds, white for dark ones. Replaces the ArtCraft wordmark, a trademark not licensed for forks.
 pub fn artcraft_logo(dark_background: bool) -> ImageSource<'static> {
     if dark_background {
-        egui::include_image!("../../../assets/manucraft/manucraft-wordmark-white.svg") // MANUCRAFT
+        egui::include_image!("../../../assets/manucraft/manucraft-lockup-white.svg") // MANUCRAFT
     } else {
-        egui::include_image!("../../../assets/manucraft/manucraft-wordmark.svg") // MANUCRAFT
+        egui::include_image!("../../../assets/manucraft/manucraft-lockup.svg") // MANUCRAFT
     }
 }
 
-/// The wordmark's width / height (its SVG view box: 1081 × 102).
-pub const ARTCRAFT_LOGO_ASPECT: f32 = 1081.0 / 102.0; // MANUCRAFT
+/// The lockup's width / height (its SVG view box: 1282 × 102).
+pub const ARTCRAFT_LOGO_ASPECT: f32 = 1282.0 / 102.0; // MANUCRAFT
 
 /// A social service's logo (Simple Icons, white, for tinting), by its name in `catalog::SOCIAL`.
 pub fn social(service: &str) -> Option<ImageSource<'static>> {
